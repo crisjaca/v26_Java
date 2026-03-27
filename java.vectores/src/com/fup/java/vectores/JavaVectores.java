@@ -1,53 +1,63 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package com.fup.java.vectores;
 
-/**
- *
- * @author 1002964060
- */
-public class JavaVectores {
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.*;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        
-        funciones bloque = new funciones();
-        //bloque.numBuscar();
-        //bloque.insertNum();
-//        bloque.positivoNum();
-//        bloque.duplicados();
-//        bloque.listarVec();
-//        bloque.listarPar();
+public class JavaVectores extends JFrame {
+    private JTable tabla;
+    private DefaultTableModel modelo;
+    private JButton btnMarcarAsistencia;
+    private JButton btnMarcarFalta;
 
-//           bloque.posicion();
-           bloque.eliminar();
-        
+    public JavaVectores() {
+        setTitle("Juego de Asistencia de Clase");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Modelo de la tabla con columnas
+        modelo = new DefaultTableModel(new Object[]{"Estudiante", "Estado"}, 0);
+        tabla = new JTable(modelo);
+
+        // Agregar algunos estudiantes de ejemplo
+        modelo.addRow(new Object[]{"Ana", "Pendiente"});
+        modelo.addRow(new Object[]{"Carlos", "Pendiente"});
+        modelo.addRow(new Object[]{"María", "Pendiente"});
+        modelo.addRow(new Object[]{"José", "Pendiente"});
+
+        JScrollPane scrollPane = new JScrollPane(tabla);
+
+        // Botones
+        btnMarcarAsistencia = new JButton("Marcar Asistencia");
+        btnMarcarFalta = new JButton("Marcar Falta");
+
+        // Acción de botones
+        btnMarcarAsistencia.addActionListener(e -> marcar("Asistió"));
+        btnMarcarFalta.addActionListener(e -> marcar("Faltó"));
+
+        JPanel panelBotones = new JPanel();
+        panelBotones.add(btnMarcarAsistencia);
+        panelBotones.add(btnMarcarFalta);
+
+        // Layout
+        add(scrollPane, BorderLayout.CENTER);
+        add(panelBotones, BorderLayout.SOUTH);
     }
-//        Scanner sc = new Scanner(System.in);
-//        int[] vector = new int[5];
-//        int tamaño = 0;
-//        int opcion,suma = 0,resta=0;
-//
-//        do {
-//            if (tamaño < vector.length) {
-//                System.out.print("Ingrese número: ");
-//                vector[tamaño] = sc.nextInt();
-//                if (vector[tamaño] % 2 == 0) {
-//                    suma = suma + vector[tamaño];
-//                } else {
-//                    resta = vector[tamaño] - resta;
-//                }
-//                tamaño++;
-//            } else {
-//                System.out.println("Vector lleno.");
-//                break;
-//            }
-//        } while (tamaño <5);
-//        sc.close();
-//        System.out.println("Pares suma:"+suma+"\nImpares resta: "+resta);
-//    }
+
+    private void marcar(String estado) {
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+            modelo.setValueAt(estado, fila, 1);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona un estudiante primero.");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new JavaVectores().setVisible(true);
+        });
+    }
 }
