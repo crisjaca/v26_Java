@@ -24,8 +24,9 @@ public class SICOA extends javax.swing.JFrame {
         "Luis Rodríguez",
         "Laura Fernández"
         };
-        initComponents();
         agregarMateria();
+        initComponents();
+        
     }
     
     public static void agregarMateria(){

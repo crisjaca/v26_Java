@@ -34,7 +34,10 @@ public class MainArreglos {
         metodos funcion = new metodos();
         
 //        funcion.MatrizA();
-        funcion.Notas();
+//        funcion.Notas();
+        EjerciciosAbril ejercicio = new EjerciciosAbril();
+        
+        ejercicio.Ejercicio1();
     }
     
 }
