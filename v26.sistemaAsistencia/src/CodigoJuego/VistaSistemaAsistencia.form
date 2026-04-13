@@ -98,7 +98,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Agregar una Materia">
+            <TitledBorder position="2" title="Agregar una Materia">
               <Font PropertyName="font" name="Tw Cen MT Condensed Extra Bold" size="12" style="0"/>
             </TitledBorder>
           </Border>
@@ -147,9 +147,9 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder>
+            <TitledBorder position="2">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Selecciona una Materia">
+                <TitledBorder position="2" title="Selecciona una Materia">
                   <Font PropertyName="font" name="Tw Cen MT Condensed Extra Bold" size="12" style="0"/>
                 </TitledBorder>
               </Border>
