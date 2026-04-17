@@ -25,6 +25,7 @@ public class VistaSistemaAsistencia extends javax.swing.JFrame {
 //        // uso el metodo addall() para agregar mas elemntos ala lista dinamica
 //        materias.addAll(Arrays.asList("Matematicas","Programación"));
     }
+    
     private String nombreMateria;
     // LISTA ESTUDIANTES
     private List<Estudiante> listaEstudiantes = new ArrayList<>();
@@ -49,15 +50,15 @@ public class VistaSistemaAsistencia extends javax.swing.JFrame {
         listaEstudiantes.add(nuevoEstudiante);
     }
     public void MostarEstudiantes(){
-         StringBuilder mensaje = new StringBuilder("=== LISTA DE ESTUDIANTES ===\n");
+        StringBuilder mensaje = new StringBuilder("=== LISTA DE ESTUDIANTES ===\n");
         // Recorrer la lista con un ciclo for
         for (int i = 0; i < listaEstudiantes.size(); i++) {
             // Obtener cada estudiante y su nombre
-            Estudiante e = listaEstudiantes.get(i);
-            mensaje.append((i+1) + ". " + e.nombre + "\n");
+            Estudiante indice = listaEstudiantes.get(i);
+            mensaje.append((i+1) + ". " + indice.nombre + "\n");
         }
         
-        // Mostrar en una ventana emergente
+        // Muestra en una ventana emergente la lista estudiantes.
         JOptionPane.showMessageDialog(null, mensaje.toString());
     }
     
