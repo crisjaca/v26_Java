@@ -24,7 +24,27 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
         jTable1.setModel(mt);
         
     }
-
+    
+    public static double calcular_promedio(double[] vector_tiempo){
+        double suma = 0;
+        
+        for (int i = 0; i < vector_tiempo.length; i++) {
+            suma += vector_tiempo[i];
+        }
+        
+        double prom = suma/vector_tiempo.length;
+        return prom;
+    }
+    
+    public static double mejor_tiempo(double[] vector_tiempo){
+        double max = vector_tiempo[0];
+        for (int i = 0; i < vector_tiempo.length; i++) {
+            if (vector_tiempo[i] < max) {
+                max = vector_tiempo[i];
+            }
+        }
+        return max;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -90,8 +110,8 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1)
+                        .addGap(34, 34, 34))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_guardar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -109,13 +129,10 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                             .addComponent(time_3, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                                             .addComponent(time_1))
+                                        .addGap(23, 23, 23)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(time_2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(23, 23, 23)
-                                                .addComponent(time_4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                            .addComponent(time_4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(time_2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(85, 85, 85))))
         );
         layout.setVerticalGroup(
@@ -128,10 +145,11 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(time_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(time_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(time_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(time_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(time_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -139,8 +157,8 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_guardar)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(251, Short.MAX_VALUE))
         );
 
         pack();
@@ -161,21 +179,27 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
             Double.valueOf(time_4.getText())
         };
 
-// Método burbuja para ordenar de menor a mayor
+    // Metodo burbuja  ordena de menor(0) a mayor (3)
         for (int i = 0; i < tiempos.length - 1; i++) {
+            // Recorre timpo en el indice 1 hasta su tamaño de elementos
             for (int j = 0; j < tiempos.length - 1 - i; j++) {
+                // recorre la lista preguntando  si el indice 0 es mayor al indice 1, si cumple se intercambia 
                 if (tiempos[j] > tiempos[j + 1]) {
-                    // Intercambiamos
+                    // Intercambiamos usando una variable temporal  guardamos el indice a cambiar 
                     double temp = tiempos[j];
+                    // renombro el indice MAYOR con el valor del indice MENOR
                     tiempos[j] = tiempos[j + 1];
+                    //Usando la variable remporal con el nimero mayor lo movemos al siguiente indice
                     tiempos[j + 1] = temp;
                 }
             }
         }
+        
         double mejor = tiempos[0]; // el más rápido
         double peor = tiempos[tiempos.length - 1]; //el mas lento
-        mt.addRow(new Object[]{nombre1, time1, time2, time3, time4, prom, mejor, peor});
-
+        mt.addRow(new Object[]{nombre1, time1, time2, time3, time4, calcular_promedio(tiempos), mejor_tiempo(tiempos), peor});
+        
+        
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     /**
