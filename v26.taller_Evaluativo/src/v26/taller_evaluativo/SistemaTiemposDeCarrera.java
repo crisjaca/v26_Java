@@ -45,6 +45,36 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
         }
         return max;
     }
+    
+    public static double peor_tiempo(double[] vector_tiempo){
+        double min = vector_tiempo[0];
+        for (int i = 0; i < vector_tiempo.length; i++) {
+            if (vector_tiempo.length > min) {
+                min = vector_tiempo[i];
+            }
+        }
+        return min;
+    }
+    
+    public static double[] metodo_burbuja(double[] vector_tiempo){
+        // Metodo burbuja  ordena de menor(0) a mayor (3)
+        for (int i = 0; i < vector_tiempo.length - 1; i++) {
+            // Recorre timpo en el indice 1 hasta su tamaño de elementos
+            for (int j = 0; j < vector_tiempo.length - 1 - i; j++) {
+                // recorre la lista preguntando  si el indice 0 es mayor al indice 1, si cumple se intercambia 
+                if (vector_tiempo[j] > vector_tiempo[j + 1]) {
+                    // Intercambiamos usando una variable temporal  guardamos el indice a cambiar 
+                    double temp = vector_tiempo[j];
+                    // renombro el indice MAYOR con el valor del indice MENOR
+                    vector_tiempo[j] = vector_tiempo[j + 1];
+                    //Usando la variable remporal con el nimero mayor lo movemos al siguiente indice
+                    vector_tiempo[j + 1] = temp;
+                }
+            }
+        }
+        // devuelvo el vetor ordenado
+        return vector_tiempo;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,6 +95,7 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
         btn_guardar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        btn_ordenar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,6 +133,13 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        btn_ordenar.setText("Ordenar");
+        btn_ordenar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ordenarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,6 +152,8 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
                         .addGap(34, 34, 34))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_guardar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_ordenar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,7 +195,9 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
                     .addComponent(time_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(time_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_guardar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_guardar)
+                    .addComponent(btn_ordenar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(251, Short.MAX_VALUE))
@@ -166,12 +208,7 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         String nombre1 = txt_nombre.getText();
-        double time1 = Double.valueOf(time_1.getText());
-        double time2 = Double.valueOf(time_2.getText());
-        double time3 = Double.valueOf(time_3.getText());
-        double time4 = Double.valueOf(time_4.getText());
-        double prom = (time1+time2+time3+time4)/4;
-      
+             
         double[] tiempos = {
             Double.valueOf(time_1.getText()),
             Double.valueOf(time_2.getText()),
@@ -179,28 +216,24 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
             Double.valueOf(time_4.getText())
         };
 
-    // Metodo burbuja  ordena de menor(0) a mayor (3)
-        for (int i = 0; i < tiempos.length - 1; i++) {
-            // Recorre timpo en el indice 1 hasta su tamaño de elementos
-            for (int j = 0; j < tiempos.length - 1 - i; j++) {
-                // recorre la lista preguntando  si el indice 0 es mayor al indice 1, si cumple se intercambia 
-                if (tiempos[j] > tiempos[j + 1]) {
-                    // Intercambiamos usando una variable temporal  guardamos el indice a cambiar 
-                    double temp = tiempos[j];
-                    // renombro el indice MAYOR con el valor del indice MENOR
-                    tiempos[j] = tiempos[j + 1];
-                    //Usando la variable remporal con el nimero mayor lo movemos al siguiente indice
-                    tiempos[j + 1] = temp;
-                }
-            }
-        }
-        
-        double mejor = tiempos[0]; // el más rápido
+    
         double peor = tiempos[tiempos.length - 1]; //el mas lento
-        mt.addRow(new Object[]{nombre1, time1, time2, time3, time4, calcular_promedio(tiempos), mejor_tiempo(tiempos), peor});
-        
-        
+        mt.addRow(new Object[]{nombre1, tiempos[0],tiempos[1],tiempos[2],tiempos[3], calcular_promedio(tiempos), mejor_tiempo(tiempos), peor_tiempo(tiempos)});
     }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void btn_ordenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ordenarActionPerformed
+         
+        // Para realizar el evento primero traemos la fila selecciona de la tabla
+        int fila_seleccionada = jTable1.getSelectedRow();
+        double[] orden_de_tiempo = new double[4];
+        for (int i = 0; i < 4.; i++) {
+            orden_de_tiempo[i] = Double.parseDouble(jTable1.getValueAt(fila_seleccionada, i+1).toString());
+        }
+        orden_de_tiempo = metodo_burbuja(orden_de_tiempo);
+        for (int i = 0; i < orden_de_tiempo.length; i++) {
+            jTable1.setValueAt(orden_de_tiempo[i],fila_seleccionada,i+1);
+        }
+    }//GEN-LAST:event_btn_ordenarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,6 +272,7 @@ public class SistemaTiemposDeCarrera extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardar;
+    private javax.swing.JButton btn_ordenar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
