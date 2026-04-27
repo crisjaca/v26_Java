@@ -1,0 +1,403 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package Juego;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author Cristian
+ */
+public class VistaJuego extends javax.swing.JFrame {
+
+    // Declaro una lista de objetos que tendra los atributos del constructor de la clase Estudiante
+    private List<Estudiante> lista_global_estudiante = new ArrayList<>();
+    private List<Materia> lista_global_materia = new ArrayList<>();
+    // Creo el modelo de la tabla
+    DefaultTableModel mt = new DefaultTableModel();
+
+    /**
+     * Creates new form VistaJuego
+     */
+    public VistaJuego() {
+        initComponents();
+        String[] ids_columnas = {"Id", "Nombre", "Asistencia"};
+        mt.setColumnIdentifiers(ids_columnas);
+        jTable1.setModel(mt);
+    }
+
+    // creo una clase como constructor donde se va a ordenar los datos de cada estudiante,
+    public static class Estudiante {
+
+        private String nombre;
+        private boolean asistencia;
+
+        public Estudiante(String name) {
+            this.nombre = name;
+            this.asistencia = false;
+        }
+//        Constructor de copia, este crea un nuevo objeto en la memoria
+        public static Estudiante copia(Estudiante otro_obj){
+            return new Estudiante(otro_obj.nombre);
+        }
+
+        public String mostar_nombre() {
+            return nombre;
+        }
+
+        public boolean cambiar_asistencia(boolean cambio) {
+            return asistencia = cambio;
+        }
+    }
+
+    //  Creo la clase materia que almacenara la lista de estudiantes de cada materia
+    public static class Materia {
+
+        private String nombre_Materia;
+        private List<Estudiante> lista_Estudiante_Materia;
+
+        public Materia(String name, List<Estudiante> list_global_e) {
+            this.nombre_Materia = name;
+            this.lista_Estudiante_Materia = new ArrayList<>();
+            // tengo que hacer una copia profunda de cada objeto para evitar que se haga una copia de referencias
+            for (int i = 0; i < list_global_e.size(); i++) {
+                this.lista_Estudiante_Materia.add(Estudiante.copia(list_global_e.get(i)));
+            }
+            // Paso una copia de la lista_global_estudiantes porque no todas las materias comparten los mismos estudiantes
+        }
+
+        public String traer_nombre_materia() {
+            return nombre_Materia;
+        }
+
+        public List traer_lista_estudiante() {
+            return lista_Estudiante_Materia;
+        }
+    }
+    //==================================================================
+    // Funciones 
+
+    public void agregar_Estudiante(String name) {
+        lista_global_estudiante.add(new Estudiante(name));
+    }
+
+    public void mostar_lista_estudiantes() {
+        String lista = "Lista de Estudiantes actuales: \n";
+        for (int i = 0; i < lista_global_estudiante.size(); i++) {
+            lista += (i + 1) + ") " + lista_global_estudiante.get(i).nombre + "\n";
+        }
+        JOptionPane.showMessageDialog(null, lista);
+    }
+
+    public void agregar_Materia(String name) {
+        if (lista_global_estudiante.size() != 0) {
+            lista_global_materia.add(new Materia(name, lista_global_estudiante));
+            actualizar_materias();
+        } else {
+            JOptionPane.showMessageDialog(null, "Lista vacia!!", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void actualizar_materias() {
+        String[] lista_nombre = new String[lista_global_materia.size()];
+        for (int i = 0; i < lista_global_materia.size(); i++) {
+            lista_nombre[i] = lista_global_materia.get(i).traer_nombre_materia();
+        }
+//      Para agregar los cambios, declaro una nueva estructura que usa el JComboBox ya que este no trabaja directamente con arreglos, necesita un modelo
+        jComboBox1.setModel(new DefaultComboBoxModel<>(lista_nombre));
+    }
+
+    public void actualizar_tabla(int index) {
+        List<Estudiante> lista_temporal = lista_global_materia.get(index).traer_lista_estudiante();
+        for (int i = 0; i < lista_temporal.size(); i++) {
+            // Traigo el modelo del Estudiante para poder traer los atributos
+            Estudiante modelo = lista_temporal.get(i);
+            mt.addRow(new Object[]{
+                (i + 1), modelo.mostar_nombre(), modelo.asistencia
+            });
+        }
+    }
+
+    public void guardar_asistencia() {
+
+    }
+
+    //==================================================================
+    // metodos
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txt_materia = new javax.swing.JTextField();
+        btn_guardar_materia = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txt_nombre = new javax.swing.JTextField();
+        tbn_guardar_estudiante = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("SISTEMA ASISTENCIA DE CLASE.");
+
+        jLabel2.setText("Ingresa la Materia:");
+
+        btn_guardar_materia.setText("Guardar");
+        btn_guardar_materia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardar_materiaActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Ver lista Estudiantes");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Ingresa un estudiante:");
+
+        tbn_guardar_estudiante.setText("Agregar");
+        tbn_guardar_estudiante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tbn_guardar_estudianteActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(tbn_guardar_estudiante)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jButton1))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txt_materia, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btn_guardar_materia))))))
+                .addGap(13, 13, 13))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txt_materia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_guardar_materia)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tbn_guardar_estudiante)
+                    .addComponent(jButton1))
+                .addGap(44, 44, 44)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (lista_global_estudiante.size() != 0) {
+            mostar_lista_estudiantes();
+        } else {
+            JOptionPane.showMessageDialog(null, "Lista vacia!!", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        agregar_Estudiante("Andrea");
+        agregar_Estudiante("Bruno");
+        agregar_Estudiante("Camila");
+        agregar_Estudiante("David");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tbn_guardar_estudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbn_guardar_estudianteActionPerformed
+        String nombre = txt_nombre.getText();
+
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            agregar_Estudiante(nombre);
+        } else {
+            JOptionPane.showMessageDialog(null, "Error el campo no pude estar vacio!!", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        txt_nombre.setText("");
+    }//GEN-LAST:event_tbn_guardar_estudianteActionPerformed
+
+    private void btn_guardar_materiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardar_materiaActionPerformed
+        String nombre = txt_materia.getText();
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            agregar_Materia(nombre);
+        } else {
+            JOptionPane.showMessageDialog(null, "Error el campo no pude estar vacio!!", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        txt_nombre.setText("");
+
+    }//GEN-LAST:event_btn_guardar_materiaActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        String materia = String.valueOf(jComboBox1.getSelectedItem());
+        if (materia != null) {
+            for (int i = 0; i < lista_global_materia.size(); i++) {
+                if (lista_global_materia.get(i).traer_nombre_materia().equals(materia)) {
+                    System.out.println("indice global: " + i);
+                    mt.setRowCount(0); // Dado haigan datos de otra busqueda limpio el modelo antes de ingresar nuevos datos
+                    actualizar_tabla(i);
+                }
+            }
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int fila = jTable1.rowAtPoint(evt.getPoint());
+        int columna = jTable1.columnAtPoint(evt.getPoint());
+        String materia = String.valueOf(jComboBox1.getSelectedItem());
+        System.out.println("_________" + materia);
+        if (columna == 2 && fila >= 0) {
+            boolean asistencia = (boolean) mt.getValueAt(fila, columna);
+            System.out.println("Assistencia");
+            for (int i = 0; i < lista_global_materia.size(); i++) {
+//                Materia materia_seleccionada = lista_global_materia.get(i).lista_Estudiante_Materia();
+                if (lista_global_materia.get(i).traer_nombre_materia().equals(materia)) {
+                    System.out.println("Matreria de la tabla con indice: " + i);
+                    Estudiante temporal = Estudiante.class.cast(lista_global_materia.get(i).lista_Estudiante_Materia.get(fila));
+//                  basicamente convierte este objeto a tipo Estudiante usando la clase
+                    if (asistencia) {
+                        temporal.asistencia = false;
+                    } else {
+                        temporal.asistencia = true;
+                    }
+                    mt.setRowCount(0);
+                    actualizar_tabla(i);
+                    System.out.println("info: \n" + temporal.mostar_nombre() + "\nAsistencia: \n" + temporal.asistencia);
+                }
+            }
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(VistaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(VistaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(VistaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(VistaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new VistaJuego().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_guardar_materia;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton tbn_guardar_estudiante;
+    private javax.swing.JTextField txt_materia;
+    private javax.swing.JTextField txt_nombre;
+    // End of variables declaration//GEN-END:variables
+}
